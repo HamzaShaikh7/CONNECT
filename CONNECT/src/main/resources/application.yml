@@ -1,0 +1,33 @@
+
+
+
+
+spring:
+  application:
+    name: CONNECT
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: CONNECT
+
+
+
+server:
+  port: 8080
+
+
+
+
+
+logging:
+  level:
+    net:
+      connect:
+        Connect: DEBUG
+
+# 1. ERROR
+# 2. WARN
+# 3. INFO
+# 4. DEBUG
+# 5. TRACE
