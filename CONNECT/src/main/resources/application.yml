@@ -2,6 +2,11 @@
 spring:
   application:
     name: CONNECT
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: CONNECT_DATA
 
 
 server:
