@@ -2,11 +2,14 @@ package com.connect.CONNECT.controller;
 
 
 import com.connect.CONNECT.entry.User;
+import com.connect.CONNECT.service.UserRepositoryIMPL;
 import com.connect.CONNECT.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
 @RestController
@@ -17,6 +20,9 @@ public class PublicController {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private UserRepositoryIMPL userRepositoryIMPL;
 
 
     @GetMapping("/health-check")
@@ -32,5 +38,11 @@ public class PublicController {
         } catch (Exception e) {
             return new ResponseEntity<>(e.getMessage(),HttpStatus.BAD_REQUEST);
         }
+    }
+
+
+    @GetMapping("/get-email")
+    public List<User> getSentiment(){
+        return userRepositoryIMPL.getUserForSA();
     }
 }
