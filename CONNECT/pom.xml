@@ -84,6 +84,29 @@
 		</dependency>
 
 
+		<!-- JJWT API -->
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-api</artifactId>
+			<version>0.12.5</version> <!-- Check for latest version -->
+		</dependency>
+
+		<!-- JJWT Implementation (Jackson for JSON parsing) -->
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-impl</artifactId>
+			<version>0.12.5</version>
+			<scope>runtime</scope>
+		</dependency>
+
+		<!-- JJWT Jackson Support (for JSON serialization) -->
+		<dependency>
+			<groupId>io.jsonwebtoken</groupId>
+			<artifactId>jjwt-jackson</artifactId>
+			<version>0.12.5</version>
+		</dependency>
+
+
 
 	</dependencies>
 

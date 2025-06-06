@@ -19,7 +19,7 @@ logging:
   level:
     net:
       connect:
-        Connect: DEBUG
+        Connect: ERROR
 
 
 weather:
