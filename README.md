@@ -18,4 +18,4 @@
 
 </br>
 <h2> API Documentation</h2>
-[📚 View Interactive API Documentation](https://hamzashaikh7.github.io/CONNECT/index.html)
+https://hamzashaikh7.github.io/CONNECT/index.html
