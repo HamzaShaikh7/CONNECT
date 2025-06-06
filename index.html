@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CONNECT API Documentation</title>
+    <style>
+        :root {
+            --get-color: #61affe;
+            --post-color: #49cc90;
+            --put-color: #fca130;
+            --delete-color: #f93e3e;
+            --dark-bg: #2d2d2d;
+            --light-bg: #f8f9fa;
+            --text-color: #333;
+            --border-color: #ddd;
+            --jwt-color: #fb015b;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--text-color);
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: white;
+        }
+        header {
+            background-color: var(--dark-bg);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 30px;
+        }
+        h1 {
+            margin: 0;
+            font-size: 2.2em;
+        }
+        h2 {
+            color: var(--dark-bg);
+            margin-top: 40px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--border-color);
+        }
+        h3 {
+            margin-top: 25px;
+            color: #444;
+        }
+        .endpoint {
+            background: white;
+            border-radius: 8px;
+            padding: 0;
+            margin-bottom: 25px;
+            border: 1px solid var(--border-color);
+            overflow: hidden;
+        }
+        .endpoint-header {
+            display: flex;
+            align-items: center;
+            padding: 15px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        .method {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 3px;
+            font-weight: bold;
+            color: white;
+            margin-right: 15px;
+            min-width: 80px;
+            text-align: center;
+            font-family: monospace;
+        }
+        .get { background-color: var(--get-color); }
+        .post { background-color: var(--post-color); }
+        .put { background-color: var(--put-color); }
+        .delete { background-color: var(--delete-color); }
+        .url {
+            font-family: monospace;
+            font-size: 16px;
+            word-break: break-all;
+            flex-grow: 1;
+        }
+        .endpoint-name {
+            font-weight: 600;
+            color: #555;
+            margin-left: 15px;
+        }
+        .endpoint-content {
+            padding: 20px;
+        }
+        .auth-section, .request-section, .response-section {
+            margin-bottom: 20px;
+        }
+        .section-title {
+            font-weight: 600;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+        }
+        .section-title svg {
+            margin-right: 8px;
+        }
+        pre {
+            background-color: var(--light-bg);
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+            margin: 10px 0;
+            border: 1px solid #e1e1e1;
+        }
+        .auth-badge {
+            display: inline-block;
+            background-color: #f0f0f0;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            margin-right: 8px;
+            font-family: monospace;
+        }
+        .jwt-badge {
+            background-color: var(--jwt-color);
+            color: white;
+        }
+        .tab-content {
+            display: none;
+        }
+        .tab-content.active {
+            display: block;
+        }
+        .tabs {
+            display: flex;
+            border-bottom: 1px solid var(--border-color);
+            margin-bottom: 15px;
+        }
+        .tab {
+            padding: 8px 15px;
+            cursor: pointer;
+            border: 1px solid transparent;
+            border-bottom: none;
+            margin-right: 5px;
+            border-radius: 5px 5px 0 0;
+        }
+        .tab.active {
+            border-color: var(--border-color);
+            border-bottom: 1px solid white;
+            margin-bottom: -1px;
+            background: white;
+            font-weight: 600;
+        }
+        .copy-btn {
+            background: none;
+            border: none;
+            color: #666;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+        .copy-btn:hover {
+            color: var(--dark-bg);
+        }
+        .note {
+            background-color: #fff8e1;
+            padding: 10px;
+            border-left: 4px solid #ffc107;
+            margin: 15px 0;
+        }
+        @media (max-width: 768px) {
+            .endpoint-header {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .method {
+                margin-bottom: 10px;
+            }
+        }
+    </style>
+</head>
+<body>
+<header>
+    <h1>CONNECT API Documentation</h1>
+    <p>Version 1.0 | Base URL: <code>http://localhost:8080</code></p>
+</header>
+
+<section id="authentication">
+    <h2>Authentication</h2>
+    <div class="note">
+        <p>Most endpoints require JWT authentication. Obtain a token by logging in:</p>
+        <pre>POST /public/login
+{
+    "username": "TOM",
+    "password": "TOM"
+}</pre>
+        <p>Include the token in the Authorization header:</p>
+        <pre>Authorization: Bearer Token :  eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...</pre>
+    </div>
+</section>
+
+<section id="public-endpoints">
+    <h2>Public Endpoints</h2>
+    <p>Endpoints that don't require authentication</p>
+
+    <!-- Health Check -->
+    <div class="endpoint">
+        <div class="endpoint-header">
+            <span class="method get">GET</span>
+            <span class="url">/public/health-check</span>
+            <span class="endpoint-name">Health-Check</span>
+        </div>
+        <div class="endpoint-content">
+            <div class="request-section">
+                <div class="section-title">
+                    Request
+                </div>
+                <pre>GET http://localhost:8080/public/health-check</pre>
+                <div class="section-title">
+                    Successful Response
+                </div>
+                <pre>OK</pre>
+            </div>
+        </div>
+    </div>
+
+    <!-- Signup -->
+    <div class="endpoint">
+        <div class="endpoint-header">
+            <span class="method post">POST</span>
+            <span class="url">/public/signup</span>
+            <span class="endpoint-name">Signup</span>
+        </div>
+        <div class="endpoint-content">
+            <div class="request-section">
+                <div class="section-title">
+                    Request
+                </div>
+                <pre>POST http://localhost:8080/public/signup</pre>
+                <div class="section-title">
+                    Request Body
+                </div>
+                <pre>{
+    "username": "TOM",
+    "email_address": "tom@gmail.com",
+    "password": "TOM"
+}</pre>
+                <div class="section-title">
+                    Successful Response
+                </div>
+                <pre>Account created</pre>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Get All Email -->
+    <div class="endpoint">
+        <div class="endpoint-header">
+            <span class="method get">GET</span>
+            <span class="url">/public/get-email</span>
+            <span class="endpoint-name">GET all email</span>
+        </div>
+        <div class="endpoint-content">
+            <div class="request-section">
+                <div class="section-title">
+                    Request
+                </div>
+                <pre>GET http://localhost:8080/public/get-email</pre>
+            </div>
+        </div>
+    </div>
+
+    <!-- Weather Check -->
+    <div class="endpoint">
+        <div class="endpoint-header">
+            <span class="method get">GET</span>
+            <span class="url">/public/weather-check/{city}</span>
+            <span class="endpoint-name">weather-check</span>
+        </div>
+        <div class="endpoint-content">
+            <div class="request-section">
+                <div class="section-title">
+                    Request
+                </div>
+                <pre>GET http://localhost:8080/public/weather-check/mumbai</pre>
+                <p><strong>Path Parameter:</strong> <code>city</code> - Name of the city to check weather for</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Login -->
+    <div class="endpoint">
+        <div class="endpoint-header">
+            <span class="method post">POST</span>
+            <span class="url">/public/login</span>
+            <span class="endpoint-name">Login</span>
+        </div>
+        <div class="endpoint-content">
+            <div class="request-section">
+                <div class="section-title">
+                    Request
+                </div>
+                <pre>POST http://localhost:8080/public/login</pre>
+                <h4>Request Body:</h4>
+                <pre>{
+    "username": "TOM",
+    "password": "TOM"
+}</pre>
+                <h4>Successful Response:</h4>
+                <pre>{
+    "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9..."
+}</pre>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="user-endpoints">
+    <h2>User Endpoints</h2>
+    <p>Endpoints for user management (require JWT authentication)</p>
+
+    <!-- Delete User -->
+    <div class="endpoint">
+        <div class="endpoint-header">
+            <span class="method delete">DELETE</span>
+            <span class="url">/user</span>
+            <span class="endpoint-name">Delete User</span>
+        </div>
+        <div class="endpoint-content">
+            <div class="auth-section">
+                <div class="section-title">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                    Authentication
+                </div>
+                <div class="auth-badge jwt-badge">JWT Token Required</div>
+            </div>
+            <div class="request-section">
+                <div class="section-title">
+                    Request
+                </div>
+                <pre>DELETE http://localhost:8080/user
+Authorization: Bearer Token :  eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...</pre>
+            </div>
+        </div>
+    </div>
+
+    <!-- Get User Details -->
+    <div class="endpoint">
+        <div class="endpoint-header">
+            <span class="method get">GET</span>
+            <span class="url">/user</span>
+            <span class="endpoint-name">Get User Details</span>
+        </div>
+        <div class="endpoint-content">
+            <div class="auth-section">
+                <div class="section-title">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                    Authentication
+                </div>
+                <div class="auth-badge jwt-badge">JWT Token Required</div>
+            </div>
+            <div class="request-section">
+                <div class="section-title">
+                    Request
+                </div>
+                <pre>GET http://localhost:8080/user
+Authorization: Bearer Token :  eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...</pre>
+            </div>
+        </div>
+    </div>
+
+    <!-- Update User -->
+    <div class="endpoint">
+        <div class="endpoint-header">
+            <span class="method put">PUT</span>
+            <span class="url">/user</span>
+            <span class="endpoint-name">Update user</span>
+        </div>
+        <div class="endpoint-content">
+            <div class="auth-section">
+                <div class="section-title">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                    Authentication
+                </div>
+                <div class="auth-badge jwt-badge">JWT Token Required</div>
+            </div>
+            <div class="request-section">
+                <div class="section-title">
+                    Request
+                </div>
+                <pre>PUT http://localhost:8080/user
+Authorization: Bearer Token :  eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...</pre>
+                <h4>Request Body:</h4>
+                <pre>{
+    "username": "TOM",
+    "email_address": "t0m01@gmail.com",
+    "password": "TOM"
+}</pre>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="profile-endpoints">
+    <h2>Profile Endpoints</h2>
+    <p>Endpoints for profile management (require JWT authentication)</p>
+
+    <!-- Create Profile -->
+    <div class="endpoint">
+        <div class="endpoint-header">
+            <span class="method post">POST</span>
+            <span class="url">/profiles</span>
+            <span class="endpoint-name">Create Profile</span>
+        </div>
+        <div class="endpoint-content">
+            <div class="auth-section">
+                <div class="section-title">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                    Authentication
+                </div>
+                <div class="auth-badge jwt-badge">JWT Token Required</div>
+            </div>
+            <div class="request-section">
+                <div class="section-title">
+                    Request
+                </div>
+                <pre>POST http://localhost:8080/profiles
+Authorization: Bearer Token :  eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...</pre>
+                <h4>Request Body:</h4>
+                <pre>{
+    "title": "Sicret",
+    "content": "You are king."
+}</pre>
+            </div>
+        </div>
+    </div>
+
+    <!-- Delete Profile -->
+    <div class="endpoint">
+        <div class="endpoint-header">
+            <span class="method delete">DELETE</span>
+            <span class="url">/profiles/{id}</span>
+            <span class="endpoint-name">Delete by ID</span>
+        </div>
+        <div class="endpoint-content">
+            <div class="auth-section">
+                <div class="section-title">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
+                        <circle cx="12" cy="7" r="4"></circle>
+                    </svg>
+                    Authentication
+                </div>
+                <div class="auth-badge jwt-badge">JWT Token Required</div>
+            </div>
+            <div class="request-section">
+                <div class="section-title">
+                    Request
+                </div>
+                <pre>DELETE http://localhost:8080/profiles/684212eace8b3cb77f856ae9
+Authorization: Bearer Token :  eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9...</pre>
+                <p><strong>Path Parameter:</strong> <code>id</code> - The ID of the profile to delete</p>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>
